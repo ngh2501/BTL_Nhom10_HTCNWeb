@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sơ đồ website - SportPro Store</title>
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .sm-root { display: block; width: fit-content; margin: 0 auto; padding: 12px 28px; text-align: center;
+               background: var(--accent-orange); color: #FFFFFF; font-weight: 700; border-radius: 8px; text-decoration: none; }
+    .sm-root small, .sm-node small { display: block; font-weight: 400; font-size: 0.75rem; opacity: 0.85; }
+    .sm-root:hover { background: #E05D00; color: #FFFFFF; }
+    .sm-branches { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 24px; }
+    .sm-title { font-size: 1rem; font-weight: 700; text-align: center; padding-bottom: 8px; margin: 0 0 12px;
+                border-bottom: 2px solid var(--accent-orange); }
+    .sm-node { display: block; text-align: center; padding: 10px 8px; border: 1px solid var(--border-color); border-radius: 8px;
+               background: var(--bg-sub); color: var(--text-color); font-weight: 600; text-decoration: none; transition: all 0.2s ease; }
+    .sm-node small { color: #6C757D; }
+    .sm-node:hover { border-color: var(--accent-orange); background: #FFFFFF; color: var(--accent-orange); }
+    .sm-arrow { text-align: center; color: var(--accent-orange); font-weight: 700; line-height: 1.6; }
+    .table code { color: var(--text-color); }
+    @media (min-width: 576px) { .sm-branches { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 992px) {
+      .sm-branches { grid-template-columns: repeat(7, 1fr); gap: 12px; position: relative; margin-top: 40px; }
+      .sm-branches::before { content: ""; position: absolute; top: -20px; left: calc(100% / 14); right: calc(100% / 14);
+                             border-top: 2px solid var(--accent-orange); }
+      .sm-col { position: relative; }
+      .sm-col::before { content: ""; position: absolute; top: -20px; left: 50%; height: 20px; border-left: 2px solid var(--accent-orange); }
+      .sm-stem { display: block; width: 0; height: 20px; margin: 0 auto; border-left: 2px solid var(--accent-orange); }
+    }
+    @media (max-width: 991.98px) { .sm-stem { display: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar text-center">
+    <div class="container d-flex justify-content-between">
+      <span>Giao hàng miễn phí toàn quốc đơn từ 500k</span>
+      <span>Đổi trả dễ dàng trong 7 ngày</span>
+      <span>Cam kết 100% dụng cụ chính hãng</span>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-danger fs-3" href="index.html">SportPro</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">Dụng cụ thể thao</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="sanpham.html?loai=bongda">Bóng đá</a></li>
+              <li><a class="dropdown-item" href="sanpham.html?loai=caulong">Cầu lông</a></li>
+              <li><a class="dropdown-item" href="sanpham.html?loai=tennis">Tennis</a></li>
+              <li><a class="dropdown-item" href="sanpham.html?loai=chaybo">Chạy bộ</a></li>
+              <li><a class="dropdown-item" href="sanpham.html?loai=tapluyen">Tập gym & Yoga</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item fw-bold" href="sanpham.html">Xem tất cả sản phẩm</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="tintuc.html">Tin tức</a></li>
+          <li class="nav-item"><a class="nav-link" href="gioithieu.html">Giới thiệu</a></li>
+          <li class="nav-item"><a class="nav-link" href="lienhe.html">Liên hệ</a></li>
+        </ul>
+
+        <form class="d-flex me-3" action="sanpham.html" method="GET">
+          <input class="form-control me-2" type="search" name="search" placeholder="Tìm bóng, vợt, tạ...">
+          <button class="btn btn-outline-danger" type="submit">Tìm</button>
+        </form>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="giohang.html" class="btn btn-outline-dark position-relative">
+            Giỏ hàng
+            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <div id="user-area" class="d-flex gap-2">
+            <a href="dangnhap.html" class="btn btn-orange btn-sm">Đăng nhập</a>
+            <a href="dangky.html" class="btn btn-outline-secondary btn-sm">Đăng ký</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container my-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-secondary">Trang chủ</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Sơ đồ website</li>
+      </ol>
+    </nav>
+
+    <h1 class="h3 fw-bold border-start border-4 border-danger ps-3 mb-2">Sơ Đồ Website</h1>
+    <p class="text-secondary mb-4">Website gồm 12 trang. Bấm vào từng ô để chuyển tới trang tương ứng. Mũi tên chỉ thứ tự điều hướng chính trong cùng một nhóm.</p>
+
+    <div class="mb-5">
+      <a class="sm-root" href="index.html">Trang chủ<small>index.html</small></a>
+      <span class="sm-stem" aria-hidden="true"></span>
+      <div class="sm-branches"><div class="sm-col"><h2 class="sm-title">Sản phẩm</h2><a class="sm-node" href="sanpham.html">Danh sách sản phẩm<small>sanpham.html</small></a><div class="sm-arrow" aria-hidden="true">&darr;</div><a class="sm-node" href="chitiet.html">Chi tiết sản phẩm<small>chitiet.html</small></a></div><div class="sm-col"><h2 class="sm-title">Mua hàng</h2><a class="sm-node" href="giohang.html">Giỏ hàng<small>giohang.html</small></a><div class="sm-arrow" aria-hidden="true">&darr;</div><a class="sm-node" href="thanhtoan.html">Thanh toán<small>thanhtoan.html</small></a></div><div class="sm-col"><h2 class="sm-title">Tài khoản</h2><a class="sm-node" href="dangky.html">Đăng ký<small>dangky.html</small></a><div class="sm-arrow" aria-hidden="true">&darr;</div><a class="sm-node" href="dangnhap.html">Đăng nhập<small>dangnhap.html</small></a></div><div class="sm-col"><h2 class="sm-title">Tin tức</h2><a class="sm-node" href="tintuc.html">Tin tức và khuyến mãi<small>tintuc.html</small></a><div class="sm-arrow" aria-hidden="true">&darr;</div><a class="sm-node" href="chitiet-tintuc.html">Chi tiết tin tức<small>chitiet-tintuc.html</small></a></div><div class="sm-col"><h2 class="sm-title">Giới thiệu</h2><a class="sm-node" href="gioithieu.html">Giới thiệu<small>gioithieu.html</small></a></div><div class="sm-col"><h2 class="sm-title">Liên hệ</h2><a class="sm-node" href="lienhe.html">Liên hệ<small>lienhe.html</small></a></div><div class="sm-col"><h2 class="sm-title">Sơ đồ</h2><a class="sm-node" href="sitemap.html">Sơ đồ website<small>sitemap.html</small></a></div></div>
+    </div>
+
+    <p class="small text-secondary mb-5">Thanh menu (navbar) và chân trang (footer) có mặt ở mọi trang, nên từ bất kỳ trang nào cũng có thể quay về Trang chủ, vào Sản phẩm, Tin tức, Giới thiệu, Liên hệ, Giỏ hàng, Đăng nhập và Đăng ký.</p>
+
+    <h2 class="h5 fw-bold border-start border-4 border-danger ps-3 mb-3">Quan hệ liên kết giữa các trang</h2>
+    <div class="table-responsive mb-5">
+      <table class="table table-sm align-middle">
+        <thead><tr><th scope="col">Từ trang</th><th scope="col">Dẫn sang</th><th scope="col">Bằng cách nào</th></tr></thead>
+        <tbody><tr><td><code>index.html</code></td><td><code>sanpham.html</code></td><td>Banner, ô danh mục, nút "Xem tất cả"</td></tr><tr><td><code>index.html</code></td><td><code>chitiet.html</code></td><td>Bấm vào sản phẩm nổi bật</td></tr><tr><td><code>index.html</code></td><td><code>tintuc.html, chitiet-tintuc.html</code></td><td>Khối tin tức ở cuối trang</td></tr><tr><td><code>index.html</code></td><td><code>dangnhap.html</code></td><td>Form đăng nhập (cửa sổ modal) ở trang chủ</td></tr><tr><td><code>sanpham.html</code></td><td><code>chitiet.html</code></td><td>Bấm vào một sản phẩm</td></tr><tr><td><code>sanpham.html</code></td><td><code>giohang.html</code></td><td>Nút "Thêm vào giỏ"</td></tr><tr><td><code>chitiet.html</code></td><td><code>giohang.html</code></td><td>Nút "Thêm vào giỏ" hoặc "Mua ngay"</td></tr><tr><td><code>chitiet.html</code></td><td><code>sanpham.html</code></td><td>Nút quay lại, sản phẩm cùng danh mục</td></tr><tr><td><code>giohang.html</code></td><td><code>thanhtoan.html</code></td><td>Nút "Thanh toán"</td></tr><tr><td><code>giohang.html</code></td><td><code>sanpham.html</code></td><td>Nút "Tiếp tục mua hàng"</td></tr><tr><td><code>thanhtoan.html</code></td><td><code>dangnhap.html</code></td><td>Khi chưa đăng nhập</td></tr><tr><td><code>thanhtoan.html</code></td><td><code>index.html</code></td><td>Sau khi đặt hàng thành công</td></tr><tr><td><code>dangky.html</code></td><td><code>dangnhap.html</code></td><td>Sau khi đăng ký thành công</td></tr><tr><td><code>dangnhap.html</code></td><td><code>index.html</code></td><td>Sau khi đăng nhập thành công</td></tr><tr><td><code>tintuc.html</code></td><td><code>chitiet-tintuc.html</code></td><td>Bấm "Đọc tiếp" ở một tin</td></tr><tr><td><code>chitiet-tintuc.html</code></td><td><code>tintuc.html</code></td><td>Nút quay lại, tin liên quan</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <h5 class="fw-bold text-danger">SportPro Store</h5>
+          <p class="small text-secondary">Chuyên cung cấp dụng cụ, thiết bị thể thao chính hãng.</p>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h6>Chính sách</h6>
+          <ul class="list-unstyled small">
+            <li><a href="#" class="text-decoration-none text-secondary">Chính sách bảo hành</a></li>
+            <li><a href="#" class="text-decoration-none text-secondary">Chính sách đổi trả</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h6>Liên kết nhanh</h6>
+          <ul class="list-unstyled small">
+            <li><a href="sanpham.html" class="text-decoration-none text-secondary">Sản phẩm</a></li>
+            <li><a href="sitemap.html" class="text-decoration-none text-secondary">Sơ đồ Website</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h6>Đăng ký nhận tin</h6>
+          <input type="email" class="form-control form-control-sm mb-2" placeholder="Email của bạn...">
+          <button class="btn btn-orange btn-sm w-100">Gửi</button>
+        </div>
+      </div>
+      <hr>
+      <p class="text-center small text-muted mb-0">Bố cục tham khảo từ maxxsport.com.vn, đã chỉnh sửa. Bài Tập Lớn Môn Hệ Thống & Công Nghệ Web - IUH.</p>
+    </div>
+  </footer>
+
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/bootstrap.bundle.min.js"></script>
+  <script src="../js/common.js"></script>
+</body>
+</html>
