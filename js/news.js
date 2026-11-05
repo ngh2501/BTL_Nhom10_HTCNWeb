@@ -1,3 +1,7 @@
+/* news.js - Thành viên C: tin tức và khuyến mãi
+   Key LocalStorage: news = [{ id, title, summary, content, image, date, type }]
+   type: "tintuc" hoặc "khuyenmai". Đoạn trong content ngăn cách bằng dòng trống ("\n\n"). */
+
 var TIN_MAU = [
     {
         id: 1,
@@ -148,3 +152,62 @@ document.addEventListener("click", function (e) {
         try { localStorage.setItem("currentNews", a.getAttribute("data-id")); } catch (err) {}
     }
 });
+
+/* ===================== CHI TIẾT TIN (chitiet-tintuc.html) ===================== */
+
+/* Tách nội dung thành các đoạn (ngăn cách bằng dòng trống) */
+function tachDoan(content) {
+    return String(content).split(/\n\s*\n/).filter(function (d) { return d.trim() !== ""; });
+}
+
+/* Lấy id tin đang xem: ưu tiên currentNews trong LocalStorage, nếu không có thì đọc ?id= trên địa chỉ */
+function layIdTinDangXem() {
+    var id = null;
+    try { id = localStorage.getItem("currentNews"); } catch (e) {}
+    if (!id) {
+        var q = /[?&]id=(\d+)/.exec(location.search);
+        id = q ? q[1] : null;
+    }
+    return id;
+}
+
+/* Tin liên quan: cùng loại trước, đủ 3 tin thì dừng (không gồm tin đang xem) */
+function layTinLienQuan(tin, soLuong) {
+    var khac = laySapXepTin().filter(function (t) { return t.id !== tin.id; });
+    var cungLoai = khac.filter(function (t) { return t.type === tin.type; });
+    var conLai = khac.filter(function (t) { return t.type !== tin.type; });
+    return cungLoai.concat(conLai).slice(0, soLuong || 3);
+}
+
+function hienChiTietTin() {
+    var vung = document.getElementById("news-detail");
+    if (!vung) { return; }
+    var tin = layTinTheoId(layIdTinDangXem());
+    var lienQuan = document.getElementById("related-news-box");
+
+    if (!tin) {
+        vung.innerHTML = '<div class="text-center py-5"><p class="fs-5">Không tìm thấy bài viết.</p>' +
+                         '<a href="tintuc.html" class="btn btn-orange">Về trang tin tức</a></div>';
+        if (lienQuan) { lienQuan.classList.add("d-none"); }
+        return;
+    }
+
+    var ten = document.getElementById("breadcrumb-news-title");
+    if (ten) { ten.textContent = tin.title; }
+
+    var nhan = tin.type === "khuyenmai" ? "Khuyến mãi" : "Tin tức";
+    vung.innerHTML =
+        '<article>' +
+        '<div class="small text-muted mb-2"><span class="badge bg-secondary me-2">' + nhan + '</span>' + dinhDangNgay(tin.date) + '</div>' +
+        '<h1 class="h3 fw-bold mb-3">' + thoatTin(tin.title) + '</h1>' +
+        '<img src="' + thoatTin(tin.image) + '" class="img-fluid rounded mb-4 news-cover" alt="' + thoatTin(tin.title) + '">' +
+        '<p class="lead">' + thoatTin(tin.summary) + '</p>' +
+        tachDoan(tin.content).map(function (d) { return '<p>' + thoatTin(d) + '</p>'; }).join("") +
+        '</article>' +
+        '<a href="tintuc.html" class="btn btn-outline-secondary mt-3">&laquo; Quay lại danh sách tin</a>';
+
+    var ds = layTinLienQuan(tin, 3);
+    var luoi = document.getElementById("related-news");
+    if (luoi) { luoi.innerHTML = ds.map(taoTheTin).join(""); }
+    if (lienQuan && ds.length === 0) { lienQuan.classList.add("d-none"); }
+}
